@@ -1,14 +1,12 @@
 import { Segment } from 'semantic-ui-react';
 import './App.css';
-import Home from './views/home/Home';
-import FormCliente from './views/cliente/FormCliente';
+import Rotas from './Rotas';
 import CadastroProduto from './views/produto/CadastroProduto';
-
 function App() {
   return (
 
     <div className="App">
-
+     <Rotas />
       <CadastroProduto />
 
       <div style={{ marginTop: '6%' }}>

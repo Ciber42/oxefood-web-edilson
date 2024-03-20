@@ -1,7 +1,7 @@
 import React from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, FormGroup, FormRadio, FormSelect, Icon } from 'semantic-ui-react';
-
+import MenuSistema from '../../MenuSistema';
 const options = [
     { key: 'PE', value: 'PE', text: 'Pernambuco' },
     { key: 'BA', value: 'BA', text: 'Bahia' },
@@ -18,7 +18,7 @@ export default function FormProduto() {
     return (
 
         <div>
-
+             <MenuSistema />
             <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
