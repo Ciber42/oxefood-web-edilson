@@ -14,7 +14,7 @@ export default function ListCliente () {
 
    function carregarLista() {
 
-       axios.get("http://localhost:8082/api/cliente") //alterar porta se preciso!!!
+       axios.get("http://localhost:8080/api/cliente") //alterar porta se preciso!!!
        .then((response) => {
            setLista(response.data)
        })
@@ -91,7 +91,14 @@ return(
                                                icon>
                                                    <Icon name='trash' />
                                            </Button>
-
+                                        <Button      
+                                                inverted
+                                                circular
+                                                color='green'
+                                                title='Clique aqui para editar os dados deste cliente'
+                                                icon>
+                                                    <Link to="/form-cliente" state={{id: cliente.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
+                                            </Button>
                                        </Table.Cell>
                                    </Table.Row>
                                ))}
