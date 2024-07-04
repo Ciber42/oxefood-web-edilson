@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
 import { Link, useLocation } from "react-router-dom";
@@ -5,6 +6,11 @@ import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 export default function FormCliente () {
     
+    const [nome, setNome] = useState();
+    const [cpf, setCpf] = useState();
+    const [dataNascimento, setDataNascimento] = useState();
+    const [foneCelular, setFoneCelular] = useState();
+    const [foneFixo, setFoneFixo] = useState();
     const { state } = useLocation();
     const [idCliente, setIdCliente] = useState();
     useEffect(() => {
@@ -36,8 +42,12 @@ export default function FormCliente () {
             <div style={{marginTop: '3%'}}>
 
                 <Container textAlign='justified' >
-
-                    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    { idCliente === undefined &&
+                    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                }
+                { idCliente != undefined &&
+                    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                }
 
                     <Divider />
 
@@ -52,6 +62,8 @@ export default function FormCliente () {
                                     fluid
                                     label='Nome'
                                     maxLength="100"
+                                    value={nome}
+			                        onChange={e => setNome(e.target.value)}
                                 />
 
                                 <Form.Input
@@ -61,6 +73,8 @@ export default function FormCliente () {
                                     <InputMask
                                         required
                                         mask="999.999.999-99"
+                                        value={cpf}
+				                        onChange={e => setCpf(e.target.value)}
                                     /> 
                                 </Form.Input>
 
@@ -104,6 +118,8 @@ export default function FormCliente () {
                         
                         <div style={{marginTop: '4%'}}>
 
+                            <Link to={'/list-cliente'}>
+
                             <Button
                                 type="button"
                                 inverted
@@ -113,9 +129,9 @@ export default function FormCliente () {
                                 color='orange'
                             >
                                 <Icon name='reply' />
-                                <Link to={'/list-cliente'}>Voltar</Link>
+                                Voltar
                             </Button>
-                                
+                                </Link>
                             <Button
                                 inverted
                                 circular
@@ -123,6 +139,7 @@ export default function FormCliente () {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar
@@ -137,6 +154,26 @@ export default function FormCliente () {
         </div>
 
     );
-    
+    function salvar() {
+
+        let clienteRequest = {
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo
+        }
+ 
+        if (idCliente != null) { //Alteração:
+            axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
+            .then((response) => { console.log('Cliente alterado com sucesso.') })
+            .catch((error) => { console.log('Erro ao alterar um cliente.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/cliente", clienteRequest)
+            .then((response) => { console.log('Cliente cadastrado com sucesso.') })
+            .catch((error) => { console.log('Erro ao incluir o cliente.') })
+        }
+ }
+ 
 
 }
